@@ -26,10 +26,7 @@ jobs:
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
     - name: Download nix patch to use readliine
-      uses: actions/download-artifact@v4
-      with:
-        repository: llakala/nix-readline
-        name: readline.patch
+      run: curl https://raw.githubusercontent.com/llakala/nix-readline/refs/heads/main/readline.patch > readline.patch
 
     - name: Apply downloaded patch
       run: git apply readline.patch
