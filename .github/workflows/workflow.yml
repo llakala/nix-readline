@@ -12,7 +12,7 @@ jobs:
     - name: Checkout nix repo
       uses: actions/checkout@v4
       with:
-        repository: 'nixos/nix'
+        repository: 'llakala/nix' # My fork of nix, auto-updates when nix commits
 
     - name: Install nix
       uses: cachix/install-nix-action@v30
@@ -24,12 +24,6 @@ jobs:
       with:
         name: nix-readline
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-
-    - name: Download nix patch to use readliine
-      run: curl https://raw.githubusercontent.com/llakala/nix-readline/refs/heads/main/readline.patch > readline.patch
-
-    - name: Apply downloaded patch
-      run: git apply readline.patch
 
     - name: Build
       run: nix-build
