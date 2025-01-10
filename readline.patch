@@ -1,0 +1,13 @@
+diff --git a/src/libcmd/package.nix b/src/libcmd/package.nix
+index 53e54d2f8..9e0265594 100644
+--- a/src/libcmd/package.nix
++++ b/src/libcmd/package.nix
+@@ -26,7 +26,7 @@
+ #
+ # - editline (default)
+ # - readline
+-, readlineFlavor ? if stdenv.hostPlatform.isWindows then "readline" else "editline"
++, readlineFlavor ? "readline" # HACK TO MAKE IT ALWAYS READLINE
+ }:
+ 
+ let

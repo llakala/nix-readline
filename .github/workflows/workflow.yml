@@ -1,0 +1,38 @@
+name: "Workflow"
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every week
+    - workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout nix repo
+      uses: actions/checkout@v4
+      with:
+        repository: 'nixos/nix'
+
+    - name: Install nix
+    - uses: cachix/install-nix-action
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+
+    - name: Setup cachix
+    - uses: cachix/cachix-action
+      with:
+        name: nix-readline
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Download nix patch to use readliine
+      uses: actions/download-artifact@v4
+      with:
+        repository: llakala/nix-readline
+        name: readline.patch
+
+    - name: Apply downloaded patch
+      run: git apply readline.patch
+
+    - name: Build
+      run: nix-build
